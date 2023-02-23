@@ -13,13 +13,36 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    testCompile group: 'io.appium', name: 'java-client', version: '7.0.0'
-    implementation 'org.codehaus.groovy:groovy-all:3.0.5'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation 'net.serenity-bdd:serenity-gradle-plugin:2.0.13'
+    implementation 'net.serenity-bdd:serenity-junit:2.0.13'
+    implementation 'net.serenity-bdd:serenity-core:2.0.13'
+    implementation 'net.serenity-bdd:serenity-cucumber:1.9.20'
+    implementation 'io.appium:java-client:7.0.0'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+}
+
+gradle.startParameter.continueOnFailure = true
+
+task android9 (type: Test){
+    systemProperties System.getProperties()
+    systemProperties['context'] = 'android:9'
+    systemProperties['appium.platformName']= 'android'
+    systemProperties['appium.hub'] = 'http://172.18.65.113:4723/wd/hub'
+    systemProperties['appium.deviceName'] = 'ALTEN Galaxy S5'
+    systemProperties['appium.platformVersion'] = '6.0.1'
+    testLogging.showStandardStreams = true
+    include "com/adidas/testRunner/TestRunner.class"
 }
 
 test {
+    systemProperties System.getProperties()
+    systemProperties['context'] = 'android'
+    systemProperties['appium.platformName']= 'android'
+    systemProperties['appium.hub'] = 'http://172.18.65.113:4723/wd/hub'
+    systemProperties['appium.deviceName'] = 'ALTEN Galaxy S5'
+    systemProperties['appium.platformVersion'] = '6.0.1'
+    testLogging.showStandardStreams = true
     useJUnitPlatform()
+    include "com/pranav/testRunner/TestRunner.class"
 }
